@@ -1,4 +1,6 @@
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from os import getenv
 
 def createTables(db: SQLAlchemy):
 	db.session.execute("""
@@ -9,8 +11,6 @@ def createTables(db: SQLAlchemy):
 			password_hash TEXT NOT NULL
 		)
 	""")
-	# CREATE UNIQUE INDEX username_index
-	# ON users (username)
 
 	db.session.execute("""
 		CREATE TABLE IF NOT EXISTS friends (
@@ -36,8 +36,9 @@ def createTables(db: SQLAlchemy):
 		CREATE TABLE IF NOT EXISTS films (
 			id SERIAL PRIMARY KEY NOT NULL UNIQUE,
 			owner BIGINT,
-			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE,
-			name TEXT NOT NULL
+			name TEXT NOT NULL,
+			shared BOOLEAN DEFAULT '0',
+			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE
 		)
 	""")
 
@@ -45,8 +46,9 @@ def createTables(db: SQLAlchemy):
 		CREATE TABLE IF NOT EXISTS music (
 			id SERIAL PRIMARY KEY NOT NULL UNIQUE,
 			owner BIGINT,
-			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE,
-			name TEXT NOT NULL
+			name TEXT NOT NULL,
+			shared BOOLEAN DEFAULT '0',
+			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE
 		)
 	""")
 
@@ -54,8 +56,9 @@ def createTables(db: SQLAlchemy):
 		CREATE TABLE IF NOT EXISTS books (
 			id SERIAL PRIMARY KEY NOT NULL UNIQUE,
 			owner BIGINT,
-			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE,
-			name TEXT NOT NULL
+			name TEXT NOT NULL,
+			shared BOOLEAN DEFAULT '0',
+			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE
 		)
 	""")
 
@@ -63,8 +66,9 @@ def createTables(db: SQLAlchemy):
 		CREATE TABLE IF NOT EXISTS comics (
 			id SERIAL PRIMARY KEY NOT NULL UNIQUE,
 			owner BIGINT,
-			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE,
-			name TEXT NOT NULL
+			name TEXT NOT NULL,
+			shared BOOLEAN DEFAULT '0',
+			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE
 		)
 	""")
 
@@ -72,7 +76,18 @@ def createTables(db: SQLAlchemy):
 		CREATE TABLE IF NOT EXISTS games (
 			id SERIAL PRIMARY KEY NOT NULL UNIQUE,
 			owner BIGINT,
-			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE,
-			name TEXT NOT NULL
+			name TEXT NOT NULL,
+			shared BOOLEAN DEFAULT '0',
+			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE
+		)
+	""")
+
+	db.session.execute("""
+		CREATE TABLE IF NOT EXISTS other (
+			id SERIAL PRIMARY KEY NOT NULL UNIQUE,
+			owner BIGINT,
+			name TEXT NOT NULL,
+			shared BOOLEAN DEFAULT '0',
+			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE
 		)
 	""")
