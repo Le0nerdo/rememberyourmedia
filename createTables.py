@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from os import getenv
+import sys
 
 def createTables(db: SQLAlchemy):
 	db.session.execute("""
@@ -91,3 +91,13 @@ def createTables(db: SQLAlchemy):
 			FOREIGN KEY(owner) REFERENCES users(id) ON DELETE CASCADE
 		)
 	""")
+
+	db.session.commit()
+
+if __name__ == "__main__":
+	app = Flask(__name__)
+	db_uri = sys.argv[1]
+	app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+	app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+	db = SQLAlchemy(app)
+	createTables(db)

@@ -1,0 +1,24 @@
+{% if session.username %}
+<h1>Welcome, {{ session.username }}</h1>
+<a href="/logout">Log out</a>
+{% else %}
+<h1>Welcome</h1>
+<h2>Log in</h2>
+<form action="/login" method="POST">
+<p>Username:<br>
+<input type="text" name="username"></p>
+<p>password:<br>
+<input type="text" name="password"></p>
+<input type="submit" value="Sign in">
+</form>
+<h2>or Create a New User</h2>
+<form action="/createuser" method="POST">
+<p>Username:<br>
+<input type="text" name="username"></p>
+<p>E-mail:<br>
+<input type="text" name="email"></p>
+<p>password:<br>
+<input type="text" name="password"></p>
+<input type="submit" value="Create user">
+</form>
+{% endif %}
