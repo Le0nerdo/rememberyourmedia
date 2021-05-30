@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<head>
+	<title>Remember Your Media</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+	<nav>
+		<ul>
+			{% if session.username %}
+			<li><a href="/">Browse</a><li>
+			<li><a href="/new">Add New</a></li>
+			<li><a href="/friends">Friends</a></li>
+			<li style="float:right"><a>Log out from: {{ session.username }}</a></li>
+			{% else %}
+			<li>Log In</li>
+			{% endif %}
+		</ul>
+	</nav>
+	{% if session.username %}
+	{% block content %}{% endblock %}
+	{% else %}
+	<h2>Log in</h2>
+	<form action="/login" method="POST">
+		<p>
+			Username:<br>
+			<input type="text" name="username">
+		</p>
+		<p>
+			password:<br>
+			<input type="text" name="password">
+		</p>
+		<input type="submit" value="Sign in">
+	</form>
+	<h2>or Create a New User</h2>
+	<form action="/createuser" method="POST">
+		<p>
+			Username:<br>
+			<input type="text" name="username">
+		</p>
+		<p>
+			E-mail:<br>
+			<input type="text" name="email">
+		</p>
+		<p>
+			password:<br>
+			<input type="text" name="password">
+		</p>
+		<input type="submit" value="Create user">
+	</form>
+	{% endif %}
+</body>

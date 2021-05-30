@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<form action="/search" method="POST">
+<form action="/create" method="POST">
 	<p>
 		type:
 		<input type="radio" name="type" value="0">films
@@ -10,15 +10,14 @@
 		<input type="radio" name="type" value="4">games
 		<input type="radio" name="type" value="5" checked="true">other
 	</p>
-	<p>Part of the name: <input type="text" name="pattern"></p>
-	<p><input type="submit" value="Search"></p>
+	<p>
+		name:
+		<input type="text" name="name">
+	</p>
+	<p>
+		Shared: <input type="checkbox" name="shared" value="1">
+		<input type='hidden' value='0' name='shared'>
+	</p>
+	<input type="submit" value="add">
 </form>
-{% if mediadata %}
-{% for media in mediadata %}
-<p>
-	Name:
-	{{ media[0] }}
-</p>
-{% endfor %}
-{% endif %}
 {% endblock %}

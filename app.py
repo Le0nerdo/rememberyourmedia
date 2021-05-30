@@ -10,6 +10,15 @@ app.config["SQLALCHEMY_DATABASE_URI"] = getenv("DB_URI")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
+MEDIA_TYPES = {
+	"0": "films",
+	"1": "music",
+	"2": "books",
+	"3": "comics",
+	"4": "games",
+	"5": "other"
+}
+
 @app.route("/")
 def index():
 	return render_template("index.html")
@@ -47,3 +56,36 @@ def createuser():
 	db.session.execute(sql, {"username": username, "email": email, "password": pwhash})
 	db.session.commit()
 	return redirect("/")
+
+@app.route("/search", methods=["POST"])
+def search():
+	owner = session["userid"]
+	pattern = request.form["pattern"]
+	type = request.form["type"]
+	pattern = f"%{pattern}%"
+	sql = f"""
+		SELECT name
+		FROM {MEDIA_TYPES[type]}
+		WHERE owner=:owner AND name LIKE :pattern
+	"""
+	result = db.session.execute(sql, {"pattern": pattern, "owner": owner}).fetchall()
+	print(result)
+	return render_template("index.html", mediadata=result)
+
+@app.route("/new")
+def new():
+	return render_template("new.html")
+
+@app.route("/create", methods=["POST"])
+def create():
+	type = request.form["type"]
+	name = request.form["name"]
+	shared = request.form["shared"]
+	sql = f"INSERT INTO {MEDIA_TYPES[type]} (owner, name, shared) VALUES (:owner, :name, :shared)"
+	db.session.execute(sql, {"owner": session["userid"], "type": type, "name": name, "shared": shared})
+	db.session.commit()
+	return redirect("/")
+
+@app.route("/friends")
+def friends():
+	return render_template("friends.html")

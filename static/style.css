@@ -1,0 +1,30 @@
+body {
+	width: 50%;
+	margin: auto;
+	margin-top: 3%;
+}
+
+nav ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: aqua;
+}
+
+nav li {
+	float: left;
+}
+
+nav li a {
+	display: block;
+	color: darkgreen;
+	text-align: center;
+	padding: 0.3em;
+	text-decoration: none;
+}
+
+nav li a:hover {
+	background-color: aquamarine;
+	cursor: pointer;
+}

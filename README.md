@@ -6,5 +6,5 @@ Remember Your Media is an application for keeping track of what films, music, bo
 
 There are 6 categories: films, music, books, music, games and other. You can also add friends and mark some items if you want to borrow from each other.
 
-# Week 2
-Because of a not course related reason I was not really able to focus on the project this week.
+# Palautus 2
+Currently you can only add and check meadia with the only information being the type and name.
