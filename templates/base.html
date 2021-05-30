@@ -10,9 +10,9 @@
 			<li><a href="/">Browse</a><li>
 			<li><a href="/new">Add New</a></li>
 			<li><a href="/friends">Friends</a></li>
-			<li style="float:right"><a>Log out from: {{ session.username }}</a></li>
+			<li style="float:right"><a href="/logout">Log out from: {{ session.username }}</a></li>
 			{% else %}
-			<li>Log In</li>
+			<li><a href="/">Log In</a></li>
 			{% endif %}
 		</ul>
 	</nav>
