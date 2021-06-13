@@ -1,0 +1,10 @@
+<div class="media">
+	<h3>
+		{{ media.type }}: {{ media.name }}
+		{% if media.shared %}
+		<span class="sharedicon">shared</span>
+		{% endif %}
+	</h3>
+	<p><i>Owned by: {{ media.owner }}</i></p>
+	{% block information %}{% endblock %}
+</div>

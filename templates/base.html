@@ -6,46 +6,35 @@
 <body>
 	<nav>
 		<ul>
-			{% if session.username %}
-			<li><a href="/">Browse</a><li>
-			<li><a href="/new">Add New</a></li>
-			<li><a href="/friends">Friends</a></li>
+			{% if session.user_id %}
+			<li><a {% if active_page == "home" %} class="active" {% endif %} href="/">RYM</a></li>
+			<li><a {% if active_page == "browse" %} class="active" {% endif %} href="/browse">
+				Browse
+			</a><li>
+			<li><a {% if active_page == "create" %} class="active" {% endif %} href="/create">
+				Add New
+			</a></li>
+			<li><a {% if active_page == "friends" %} class="active" {% endif %} href="/friends">
+				Friends
+			</a></li>
 			<li style="float:right"><a href="/logout">Log out from: {{ session.username }}</a></li>
 			{% else %}
-			<li><a href="/">Log In</a></li>
+			<li><a {% if active_page == "login" %} class="active" {% endif %} href="/login">
+				Log In
+			</a></li>
+			<li><a {% if active_page == "register" %} class="active" {% endif %} href="/register">
+				register
+			</a></li>
 			{% endif %}
 		</ul>
 	</nav>
-	{% if session.username %}
-	{% block content %}{% endblock %}
-	{% else %}
-	<h2>Log in</h2>
-	<form action="/login" method="POST">
-		<p>
-			Username:<br>
-			<input type="text" name="username">
-		</p>
-		<p>
-			password:<br>
-			<input type="text" name="password">
-		</p>
-		<input type="submit" value="Sign in">
-	</form>
-	<h2>or Create a New User</h2>
-	<form action="/createuser" method="POST">
-		<p>
-			Username:<br>
-			<input type="text" name="username">
-		</p>
-		<p>
-			E-mail:<br>
-			<input type="text" name="email">
-		</p>
-		<p>
-			password:<br>
-			<input type="text" name="password">
-		</p>
-		<input type="submit" value="Create user">
-	</form>
+	{% if error %}
+	<div id="error">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		{{ error }}
+	</div>
 	{% endif %}
+	<div id="body">
+		{% block content %}{% endblock %}
+	</div>
 </body>

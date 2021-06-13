@@ -1,24 +1,19 @@
 {% extends "base.html" %}
+{% set active_page = "home" %}
 {% block content %}
-<form action="/search" method="POST">
-	<p>
-		type:
-		<input type="radio" name="type" value="0">films
-		<input type="radio" name="type" value="1">music
-		<input type="radio" name="type" value="2">books
-		<input type="radio" name="type" value="3">comics
-		<input type="radio" name="type" value="4">games
-		<input type="radio" name="type" value="5" checked="true">other
-	</p>
-	<p>Part of the name: <input type="text" name="pattern"></p>
-	<p><input type="submit" value="Search"></p>
-</form>
-{% if mediadata %}
-{% for media in mediadata %}
+<h1>Welcome to Remember Your Media!</h1>
 <p>
-	Name:
-	{{ media[0] }}
+	This website is in early development and the data will not
+	be automatically transferred to the real version.
 </p>
-{% endfor %}
-{% endif %}
+<p>
+	If you are experiencing issues or have other questions, I encourage you to visit this projects 
+	<a
+		href="https://github.com/Le0nerdo/rememberyourmedia"
+		target="_blank"
+		rel="noopener noreferrer"
+	>
+		GitHub repository
+	</a>.
+</p>
 {% endblock %}

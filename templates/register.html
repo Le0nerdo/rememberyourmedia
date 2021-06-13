@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% set active_page = "register" %}
+{% block content %}
+<form action="/register" method="POST">
+	<p>
+		Username:<br>
+		<input
+			type="text"
+			name="username"
+			{% if username %}
+			value={{ username }}
+			{% endif %}
+			autocomplete="off"
+		>
+	</p>
+	<p>
+		E-mail:<br>
+		<input
+			type="text"
+			name="email"
+			{% if email %}
+			value={{ email }}
+			{% endif %}
+			autocomplete="off"
+		>
+	</p>
+	<p>
+		password:<br>
+		<input type="password" name="password" autocomplete="off">
+	</p>
+	<p>
+		retype password:<br>
+		<input type="password" name="password_check" autocomplete="off">
+	</p>
+	<input type="submit" value="Create user">
+</form>
+{% endblock %}

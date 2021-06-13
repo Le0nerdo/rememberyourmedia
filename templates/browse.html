@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% set active_page = "browse" %}
+{% block content %}
+<form action="/browse" method="POST">
+	<p>
+		type:
+		<input type="radio" name="type" value="0" {% if type=="0" %}checked="true"{% endif %}>films
+		<input type="radio" name="type" value="1" {% if type=="1" %}checked="true"{% endif %}>music
+		<input type="radio" name="type" value="2" {% if type=="2" %}checked="true"{% endif %}>books
+		<input type="radio" name="type" value="3" {% if type=="3" %}checked="true"{% endif %}>comics
+		<input type="radio" name="type" value="4" {% if type=="4" %}checked="true"{% endif %}>games
+		<input type="radio" name="type" value="5" {% if type=="5" %}checked="true"{% endif %}>others
+	</p>
+	<p>Part of the name: <input autocomplete="off" type="text" name="pattern"></p>
+	<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
+	<p><input type="submit" value="Search"></p>
+</form>
+{% if mediadata %}
+	{% for media in mediadata %}
+		{% include mediatemplate %}
+	{% endfor %}
+{% endif %}
+{% endblock %}

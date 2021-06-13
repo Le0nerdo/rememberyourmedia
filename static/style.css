@@ -1,3 +1,5 @@
+/* Some things are copied from https://www.w3schools.com/ as placeholders */
+
 body {
 	width: 50%;
 	margin: auto;
@@ -27,4 +29,59 @@ nav li a {
 nav li a:hover {
 	background-color: aquamarine;
 	cursor: pointer;
+}
+
+#error {
+	padding: 20px;
+	background-color: #f44336;
+	color: white;
+	margin-bottom: 15px;
+}
+
+.closebtn {
+	margin-left: 15px;
+	color: white;
+	font-weight: bold;
+	float: right;
+	font-size: 22px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: 0.3s;
+}
+
+.closebtn:hover {
+	color: black;
+}
+
+.active {
+	background-color: blue;
+}
+
+.active:hover {
+	background-color: blue;
+}
+
+.sharedicon {
+	color: green;
+	float: right;
+}
+
+.media {
+	padding-left: 1em;
+	padding-right: 1em;
+	border: black;
+	border-style: solid;
+	border-radius: 1em;
+	border-width: 0.1em;
+	margin-bottom: 1em;
+}
+
+.media h3 {
+	margin-top: 1em;
+	margin-bottom: 0;
+}
+
+.media p {
+	margin-top: 0;
+	font-size: small;
 }

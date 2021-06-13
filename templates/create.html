@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% set active_page = "create" %}
+{% block content %}
+<form action="/create" method="POST">
+	<p>
+		type:
+		<input type="radio" name="type" value="0" {% if type=="0" %}checked="true"{% endif %}>film
+		<input type="radio" name="type" value="1" {% if type=="1" %}checked="true"{% endif %}>music
+		<input type="radio" name="type" value="2" {% if type=="2" %}checked="true"{% endif %}>book
+		<input type="radio" name="type" value="3" {% if type=="3" %}checked="true"{% endif %}>comic
+		<input type="radio" name="type" value="4" {% if type=="4" %}checked="true"{% endif %}>game
+		<input type="radio" name="type" value="5" {% if type=="5" %}checked="true"{% endif %}>other
+	</p>
+	<p>
+		name:
+		<input
+			type="text"
+			name="name"
+			autocomplete="off"
+			{% if name %}
+			value={{ name }}
+			{% endif %}
+		>
+	</p>
+	<p>
+		Shared:
+		<input
+			type="checkbox"
+			name="shared"
+			value="1"
+			{% if shared=="1" %}
+			checked="true"
+			{% endif %}
+		>
+		<input type='hidden' name='shared' value='0'>
+	</p>
+	<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
+	<input type="submit" value="add">
+</form>
+{% endblock %}
