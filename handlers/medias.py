@@ -1,4 +1,6 @@
+import re
 import typing
+
 from db import db
 from flask import session
 
@@ -86,7 +88,7 @@ SQL_GET = {
 def browse(pattern: str, m_type: str) -> typing.List[Media]:
 	result = db.session.execute(
 		SQL_BROWSE[m_type],
-		{"pattern": pattern, "owner": session["user_id"]}
+		{"pattern": re.escape(pattern), "owner": session["user_id"]}
 	)
 	rows = result.fetchall()
 	medias = []

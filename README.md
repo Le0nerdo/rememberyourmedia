@@ -7,7 +7,6 @@ There are 6 categories: films, music, books, music, games and other. You will al
 I will work on this project if I feel like it. If I see people using the webpage I am more motivated.
 
 ## Next in development
-1. Minimum input length check
 1. editing/deleting media items + refactoring
 1. Managing friends
 1. Browsing media that friends have shared + possible refactoring

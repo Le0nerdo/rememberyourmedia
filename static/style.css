@@ -55,6 +55,7 @@ nav li a:hover {
 
 .active {
 	background-color: blue;
+	color: white;
 }
 
 .active:hover {
