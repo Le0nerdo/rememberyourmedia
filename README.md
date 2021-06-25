@@ -7,10 +7,10 @@ There are 6 categories: films, music, books, music, games and other. You will al
 I will work on this project if I feel like it. If I see people using the webpage I am more motivated.
 
 ## Next in development
-1. editing/deleting media items + refactoring
 1. Managing friends
 1. Browsing media that friends have shared + possible refactoring
 1. Adding fields to different kind of media + BIG refactoring
+1. Messages for succesfull things
 
 ## Later in development
 * Usability and Making the webpage visually better
@@ -21,6 +21,9 @@ I will work on this project if I feel like it. If I see people using the webpage
 * Language options
 * Some way for me to see if anyone uses the webpage
 * cookie disclaimer
+
+## Planned structure changes
+* Rename templates/media to templates/meadi_items
 
 # Frequently Asked Questions
 ## Would it not be better to use only one table for medias?

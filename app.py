@@ -7,5 +7,5 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 import routes.misc_routes  # noqa: E402, F401
 import routes.users_routes  # noqa: E402, F401
-import routes.notes_routes  # noqa: E402, F401
+import routes.medias_routes  # noqa: E402, F401
 import routes.friends_routes  # noqa: E402, F401

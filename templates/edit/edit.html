@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<form action="/edit/{{ type }}/{{ media.id }}" method="POST">
+	<p>
+		name:
+		<input
+			type="text"
+			name="name"
+			autocomplete="off"
+			{% if edited %}
+			value={{ name }}
+			{% else %}
+			value={{ media.name }}
+			{% endif %}
+		>
+	</p>
+	{% block extrafields %}{% endblock %}
+	<p>
+		Shared:
+		<input
+			type="checkbox"
+			name="shared"
+			value="1"
+			{% if edited %}
+				{% if shared %}
+				checked="true"
+				{% endif %}
+			{% elif media.shared %}
+			checked="true"
+			{% endif %}
+		>
+		<input type='hidden' name='shared' value='0'>
+	</p>
+	<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
+	<p><input type="submit" value="Edit"></p>
+</form>
+<span style="float: right;">
+	<form action="/delete/{{ type }}/{{ media.id }}" method="POST">
+		<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
+		<p><input type="submit" value="Delete"></p>
+	</form>
+</span>
+{% endblock %}

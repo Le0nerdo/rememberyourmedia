@@ -29,37 +29,37 @@ FIELDS = {
 
 SQL_BROWSE = {
 	"0": """
-		SELECT m.name AS name, m.shared AS shared, u.username AS owner
+		SELECT m.name AS name, m.shared AS shared, u.username AS owner, m.id AS id
 		FROM films AS m
 		JOIN users AS u ON u.id=m.owner
 		WHERE m.owner=:owner AND m.name ~* :pattern
 	""",
 	"1": """
-		SELECT m.name AS name, m.shared AS shared, u.username AS owner
+		SELECT m.name AS name, m.shared AS shared, u.username AS owner, m.id AS id
 		FROM music AS m
 		JOIN users AS u ON u.id=m.owner
 		WHERE m.owner=:owner AND m.name ~* :pattern
 	""",
 	"2": """
-		SELECT m.name AS name, m.shared AS shared, u.username AS owner
+		SELECT m.name AS name, m.shared AS shared, u.username AS owner, m.id AS id
 		FROM books AS m
 		JOIN users AS u ON u.id=m.owner
 		WHERE m.owner=:owner AND m.name ~* :pattern
 	""",
 	"3": """
-		SELECT m.name AS name, m.shared AS shared, u.username AS owner
+		SELECT m.name AS name, m.shared AS shared, u.username AS owner, m.id AS id
 		FROM comics AS m
 		JOIN users AS u ON u.id=m.owner
 		WHERE m.owner=:owner AND m.name ~* :pattern
 	""",
 	"4": """
-		SELECT m.name AS name, m.shared AS shared, u.username AS owner
+		SELECT m.name AS name, m.shared AS shared, u.username AS owner, m.id AS id
 		FROM games AS m
 		JOIN users AS u ON u.id=m.owner
 		WHERE m.owner=:owner AND m.name ~* :pattern
 	""",
 	"5": """
-		SELECT m.name AS name, m.shared AS shared, u.username AS owner
+		SELECT m.name AS name, m.shared AS shared, u.username AS owner, m.id AS id
 		FROM other AS m
 		JOIN users AS u ON u.id=m.owner
 		WHERE m.owner=:owner AND m.name ~* :pattern
@@ -84,6 +84,24 @@ SQL_GET = {
 	"5": "SELECT * FROM other WHERE owner=:owner AND id=:id",
 }
 
+SQL_EDIT = {
+	"0": "UPDATE films SET name=:name, shared=:shared WHERE owner=:owner AND id=:id RETURNING *;",
+	"1": "UPDATE music SET name=:name, shared=:shared WHERE owner=:owner AND id=:id RETURNING *;",
+	"2": "UPDATE books SET name=:name, shared=:shared WHERE owner=:owner AND id=:id RETURNING *;",
+	"3": "UPDATE comics SET name=:name, shared=:shared WHERE owner=:owner AND id=:id RETURNING *;",
+	"4": "UPDATE games SET name=:name, shared=:shared WHERE owner=:owner AND id=:id RETURNING *;",
+	"5": "UPDATE other SET name=:name, shared=:shared WHERE owner=:owner AND id=:id RETURNING *;",
+}
+
+SQL_DELETE = {
+	"0": "DELETE FROM films WHERE owner=:owner AND id=:id",
+	"1": "DELETE FROM music WHERE owner=:owner AND id=:id",
+	"2": "DELETE FROM books WHERE owner=:owner AND id=:id",
+	"3": "DELETE FROM comics WHERE owner=:owner AND id=:id",
+	"4": "DELETE FROM games WHERE owner=:owner AND id=:id",
+	"5": "DELETE FROM other WHERE owner=:owner AND id=:id",
+}
+
 
 def browse(pattern: str, m_type: str) -> typing.List[Media]:
 	result = db.session.execute(
@@ -99,7 +117,7 @@ def browse(pattern: str, m_type: str) -> typing.List[Media]:
 	return medias
 
 
-def create(fields: str, shared: str, type: str) -> None:
+def create(fields: dict, shared: str, type: int) -> None:
 	params = {**fields, "owner": session["user_id"], "shared": shared}
 	db.session.execute(SQL_INSERT[type], params)
 	db.session.commit()
@@ -112,3 +130,17 @@ def get(m_type: str, id: int) -> Media:
 	)
 	media = result.fetchone()
 	return media
+
+
+def edit(fields: dict, shared: str, m_type: str, id: int):
+	params = {**fields, "owner": session["user_id"], "shared": shared, "id": id}
+	result = db.session.execute(SQL_EDIT[TYPES[TYPE_NAMES.index(m_type)]], params)
+	media = result.fetchall()
+	db.session.commit()
+	return media[0]
+
+
+def delete(m_type: str, id: int) -> None:
+	params = {"owner": session["user_id"], "id": id}
+	db.session.execute(SQL_DELETE[TYPES[TYPE_NAMES.index(m_type)]], params)
+	db.session.commit()
