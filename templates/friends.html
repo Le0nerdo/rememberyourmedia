@@ -1,5 +1,39 @@
 {% extends "base.html" %}
 {% set active_page = "friends" %}
 {% block content %}
-<h2> This feature is not yet implemented.</h2>
+<h2>Add friend</h2>
+<form action="/friends/add" method="POST">
+	<p>Username: <input autocomplete="off" type="text" name="username"></p>
+	<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
+	<p><input type="submit" value="Send request"></p>
+</form>
+{% if requests %}
+<h2>Friend requests</h2>
+{% for request in requests %}
+<div class="friendrequest">
+		<span>{{ request }}</span>
+		<form action="/friends/accept" method="POST" style="display: inline">
+			<input type="hidden" name="username" value={{ request }}>
+			<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
+			<input type="submit" value="Accept">
+		</form>
+		<form action="/friends/decline" method="POST" style="display: inline">
+			<input type="hidden" name="username" value={{ request }}>
+			<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
+			<input type="submit" value="Decline">
+		</form>
+</div>
+{% endfor %}
+{% endif %}
+<h2>Friends</h2>
+{% for friend in friends %}
+<div class="friend">
+	{{ friend }}
+	<form action="/friends/remove" method="POST" style="display: inline">
+		<input type="hidden" name="username" value={{ friend }}>
+		<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
+		<input type="submit" value="Remove">
+	</form>
+</div>
+{% endfor %}
 {% endblock %}
