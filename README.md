@@ -9,7 +9,7 @@ There are 6 categories: films, music, books, music, games and other. You will al
 To start using the webpage you can select to Log in or register from the navigation bar (top). After that you can use the navigation bar to select:
 * **RYM** to see a welcome page
 * **Browse** to browse saved media (select media type from second navigation bar). To edit or remove saved items you have to browse them first and then press the corresponding hyperlink on the right side of the media item.
-* **Add New** to add a new media item. Only the title is mandatory (select media type from second navigation bar)
+* **Add New** to add a new media item. Only the title is mandatory (select media type from second navigation bar). If the media that you are adding has many of something (for example Directors) you can separate them with commas.
 * **Friends** to see current friends, send friend requests, accept friend requests or remove friends.
 
 # Development
