@@ -9,6 +9,18 @@ def login():
 		return render_template("login.html")
 	username = request.form["username"]
 	password = request.form["password"]
+	if len(username) > 20:
+		return render_template(
+			"login.html",
+			username=username,
+			error="Username can not be longer than 20 characters."
+		)
+	if len(password) > 255:
+		return render_template(
+			"login.html",
+			username=username,
+			error="Invalid credentials."
+		)
 	if users.login(username, password):
 		return redirect("/")
 	else:
