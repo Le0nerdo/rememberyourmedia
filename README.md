@@ -1,37 +1,34 @@
 # Remember Your Media
-Remember Your Media is an application for keeping track of what films, music, books, comics or other media you have bought. You can try it out [here](https://remember-your-media.herokuapp.com/) (only for testing, data may be lost). After finishing a school course and basic features I will start thinking about where to host this (will start with an empty database).
+> Database NUKE on 27. june 2021
+
+Remember Your Media is an application for keeping track of what films, music, books, comics or other media you have bought. You can try it out [here](https://remember-your-media.herokuapp.com/) (only for testing, data may be lost).
 
 There are 6 categories: films, music, books, music, games and other. You will also be able to add friends and see if they could share something.
 
+# Short Guide
+To start using the webpage you can select to Log in or register from the navigation bar (top). After that you can use the navigation bar to select:
+* **RYM** to see a welcome page
+* **Browse** to browse saved media (select media type from second navigation bar). To edit or remove saved items you have to browse them first and then press the corresponding hyperlink on the right side of the media item.
+* **Add New** to add a new media item. Only the title is mandatory (select media type from second navigation bar)
+* **Friends** to see current friends, send friend requests, accept friend requests or remove friends.
+
 # Development
-I will work on this project if I feel like it. If I see people using the webpage I am more motivated.
+I will probably not continue to work on this project, because this prerender all html thing just seems to maka a lot of unnessessary traffic for the server adn database.
 
 ## Next in development
-1. Browsing media that friends have shared
-1. Adding fields to different kind of media + BIG refactoring
-1. Messages for succesfull things
 1. UI less ugly
 
 ## Later in development
 * Usability and Making the webpage visually better
-* Some kind of guide?
 * User managment
 * Warning when creating dublicate media item
-* Limit name field for medias for 255 characters in database (VARCHAR(255))
 * Language options
 * Some way for me to see if anyone uses the webpage
 * cookie disclaimer
 
-## Planned structure changes
-* Rename templates/media to templates/meadi_items
+# Loppupalautus (Related to a school project)
+Nytten on sankarikoodattu viimeisenä iltana :)
 
-# Frequently Asked Questions
-## Would it not be better to use only one table for medias?
-I do not think so. Different kind of medias will have different fields, meaning that it would be messy. I rather make the tables separated from the start than make a script later to sort data from one table to many. I have been considering merging the comics media type into books, but will see about that.
-
-# Palautus 3 (Related to a school project)
-Ei ole päätoiminnallisuudeltaan uutta. Kirjoitin koko homman uudestaan järkkevämmä tavalla. Käyttäjälle näkyviä muutoksia ovat homepage/landingpage, virheviestit, hieman muuttunut ulkoasu, "quality of life" toiminnallisuuksia ja mahdollisesti tietoturvaa lisäävät toiminnot.
-
-Koodi jäi erittäin epämukavaan kuntoon mutta https://youtube.com/watch?v=SETnK2ny1R0
+Koodi jäi erittäin epämukavaan kuntoon mutta voi voi niin jäi käyttöliittymän ulkoasukin... https://youtube.com/watch?v=SETnK2ny1R0
 
 https://remember-your-media.herokuapp.com/
