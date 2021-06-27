@@ -2,16 +2,14 @@ import typing
 
 from db import db
 from flask import session
-# in friends for speed user1 = user and user2 = friend. All friendships have 2 entries.
-# in friendrequests user1 = to be added and user2 = sender.
 
 
 def get() -> typing.List[str]:
 	sql = """
 		SELECT users.username AS username
 		FROM friends
-		INNER JOIN users ON users.id=friends.user2
-		WHERE friends.user1=:user
+		INNER JOIN users ON users.id=friends.friend
+		WHERE friends.user=:user
 	"""
 	params = {"user": session["user_id"]}
 	result = db.session.execute(sql, params)
@@ -24,8 +22,8 @@ def friend_requests():
 	sql = """
 		SELECT users.username AS username
 		FROM friendrequests
-		INNER JOIN users ON users.id=friendrequests.user2
-		WHERE friendrequests.user1=:user
+		INNER JOIN users ON users.id=friendrequests.sender
+		WHERE friendrequests.receiver=:user
 	"""
 	params = {"user": session["user_id"]}
 	result = db.session.execute(sql, params)
@@ -42,15 +40,15 @@ def accept_friend_request(username: str):
 		), request AS (
 			DELETE
 			FROM friendrequests
-			WHERE user1=:user AND user2=(SELECT id from friend)
-			RETURNING user1, user2
+			WHERE receiver=:user AND sender=(SELECT id from friend)
+			RETURNING receiver, sender
 		), link1 AS (
-			INSERT INTO friends (user1, user2)
-			VALUES ((SELECT user1 FROM request), (SELECT user2 FROM request))
-			RETURNING user1, user2
+			INSERT INTO friends ("user", friend)
+			VALUES (:user, (SELECT id from friend))
+			RETURNING "user", friend
 		)
-		INSERT INTO friends (user1, user2)
-		VALUES ((SELECT user2 FROM request), (SELECT user1 FROM request))
+		INSERT INTO friends ("user", friend)
+		VALUES ((SELECT id from friend), :user)
 	"""
 	params = {"user": session["user_id"], "username": username}
 	db.session.execute(sql, params)
@@ -67,7 +65,7 @@ def decline_friend_request(username: str):
 		)
 		DELETE
 		FROM friendrequests
-		WHERE user1=:user AND user2=(SELECT id FROM friend)
+		WHERE receiver=:user AND sender=(SELECT id FROM friend)
 	"""
 	params = {"user": session["user_id"], "username": username}
 	db.session.execute(sql, params)
@@ -90,11 +88,11 @@ def send_friend_request(username: str) -> int:
 	sql_check_exist = """
 		SELECT id
 		FROM friendrequests
-		WHERE user2=:user AND user1=:friendid
+		WHERE sender=:user AND receiver=:friendid
 		UNION
-		SELECT id
+		SELECT friend
 		FROM friends
-		WHERE user2=:user AND user1=:friendid
+		WHERE "user"=:user AND friend=:friendid
 	"""
 	params = {"user": session["user_id"], "friendid": friend.id}
 	exists = db.session.execute(sql_check_exist, params).fetchall()
@@ -105,7 +103,7 @@ def send_friend_request(username: str) -> int:
 		accept_friend_request(username)
 		return 1
 	sql_insert_friendrequest = """
-		INSERT INTO friendrequests (user1, user2)
+		INSERT INTO friendrequests (receiver, sender)
 		VALUES (:friendid, :user)
 	"""
 	db.session.execute(sql_insert_friendrequest, params)
@@ -122,11 +120,11 @@ def remove_friend(username: str):
 		), link1 AS (
 			DELETE
 			FROM friends
-			WHERE user1=:user AND user2=(SELECT id FROM friend)
+			WHERE "user"=:user AND friend=(SELECT id FROM friend)
 		)
 		DELETE
 		FROM friends
-		WHERE user1=(SELECT id FROM friend) AND user2=:user
+		WHERE "user"=(SELECT id FROM friend) AND friend=:user
 	"""
 	params = {"user": session["user_id"], "username": username}
 	db.session.execute(sql, params)

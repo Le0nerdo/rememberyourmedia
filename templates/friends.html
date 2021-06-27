@@ -3,7 +3,13 @@
 {% block content %}
 <h2>Add friend</h2>
 <form action="/friends/add" method="POST">
-	<p>Username: <input autocomplete="off" type="text" name="username"></p>
+	<p>Username: <input
+		autocomplete="off" 
+		type="text"
+		name="username"
+		minlength="3"
+		maxlength="20"
+	></p>
 	<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
 	<p><input type="submit" value="Send request"></p>
 </form>

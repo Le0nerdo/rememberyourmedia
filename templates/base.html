@@ -28,10 +28,17 @@
 			{% endif %}
 		</ul>
 	</nav>
+	{% block navigator2 %}{% endblock %}
 	{% if error %}
 	<div id="error">
 		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
 		{{ error }}
+	</div>
+	{% endif %}
+	{% if message %}
+	<div id="message">
+		<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+		{{ message }}
 	</div>
 	{% endif %}
 	<div id="body">

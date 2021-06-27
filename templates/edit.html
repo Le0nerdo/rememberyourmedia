@@ -1,20 +1,7 @@
 {% extends "base.html" %}
-{% set active_page = "create" %}
-{% block navigator2 %}
-<nav>
-	<ul>
-		<li><a {% if type == "film" %}class="active"{% endif %} href="/create/film">Film</a></li>
-		<li><a {% if type == "music" %}class="active"{% endif %} href="/create/music">Music</a></li>
-		<li><a {% if type == "book" %}class="active"{% endif %} href="/create/book">Book</a></li>
-		<li><a {% if type == "comic" %}class="active"{% endif %} href="/create/comic">Comic</a></li>
-		<li><a {% if type == "game" %}class="active"{% endif %} href="/create/game">Game</a></li>
-		<li><a {% if type == "other" %}class="active"{% endif %} href="/create/other">Other</a></li>
-	</ul>
-</nav>
-{% endblock %}
 {% block content %}
-{% if fields %}
-<form action="/create/{{ type }}" method="POST">
+{% if (fields and type and id) %}
+<form action="/edit/{{ type }}/{{ id }}" method="POST">
 	{% for field in fields %}
 		<p>
 			{{ field.name }}
@@ -61,7 +48,7 @@
 		</p>
 	{% endfor %}
 	<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
-	<p><input type="submit" value="Create"></p>
+	<p><input type="submit" value="Edit"></p>
 </form>
 {% endif %}
 {% endblock %}

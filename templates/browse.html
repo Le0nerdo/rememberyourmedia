@@ -1,23 +1,86 @@
 {% extends "base.html" %}
 {% set active_page = "browse" %}
+{% block navigator2 %}
+<nav>
+	<ul>
+		<li><a {% if type == "film" %}class="active"{% endif %} href="/browse/film">Film</a></li>
+		<li><a {% if type == "music" %}class="active"{% endif %} href="/browse/music">Music</a></li>
+		<li><a {% if type == "book" %}class="active"{% endif %} href="/browse/book">Book</a></li>
+		<li><a {% if type == "comic" %}class="active"{% endif %} href="/browse/comic">Comic</a></li>
+		<li><a {% if type == "game" %}class="active"{% endif %} href="/browse/game">Game</a></li>
+		<li><a {% if type == "other" %}class="active"{% endif %} href="/browse/other">Other</a></li>
+	</ul>
+</nav>
+{% endblock %}
 {% block content %}
-<form action="/browse" method="POST">
-	<p>
-		type:
-		<input type="radio" name="type" value="0" {% if type=="0" %}checked="true"{% endif %}>films
-		<input type="radio" name="type" value="1" {% if type=="1" %}checked="true"{% endif %}>music
-		<input type="radio" name="type" value="2" {% if type=="2" %}checked="true"{% endif %}>books
-		<input type="radio" name="type" value="3" {% if type=="3" %}checked="true"{% endif %}>comics
-		<input type="radio" name="type" value="4" {% if type=="4" %}checked="true"{% endif %}>games
-		<input type="radio" name="type" value="5" {% if type=="5" %}checked="true"{% endif %}>others
-	</p>
+{% if type  %}
+<form action="/browse/{{ type }}" method="POST">
 	<p>Part of the name: <input autocomplete="off" type="text" name="pattern"></p>
 	<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
 	<p><input type="submit" value="Search"></p>
 </form>
+{% endif %}
 {% if mediadata %}
 	{% for media in mediadata %}
-		{% include mediatemplate %}
+	<div class="media">
+		<h3>
+			{{ media.title }}
+			{% if media.published %}
+			({{ media.published }})
+			{% endif %}
+			{% if media.shared %}
+			<span class="sharedicon">shared</span>
+			{% endif %}
+		</h3>
+		<p>
+			<p>
+				<i>Owned by: {{ media.owner }}</i>
+				<span class="editicon">
+					<a href="/edit/{{ type }}/{{ media.id }}">edit</a>
+					<a href="/delete/{{ type }}/{{ media.id }}">delete</a>
+				</span>
+			</p>
+			{% for key, value in media.items() %}
+			{% if (key == "title" or key == "published" or key == "shared" or key == "owner"
+				or key == "id") %}
+			{% else %}
+			{% if value %}
+			<p>{{ key }}: {{ value }}</p>
+			{% endif %}
+			{% endif %}
+			{% endfor %}
+		</p>
+	</div>
+	{% endfor %}
+{% endif %}
+{% if shared_data %}
+	<h2>Results found from friends</h2>
+	{% for media in shared_data %}
+	<div class="media">
+		<h3>
+			{{ media.title }}
+			{% if media.published %}
+			({{ media.published }})
+			{% endif %}
+			{% if media.shared %}
+			<span class="sharedicon">shared</span>
+			{% endif %}
+		</h3>
+		<p>
+			<p>
+				<i>Owned by: {{ media.owner }}</i>
+			</p>
+			{% for key, value in media.items() %}
+			{% if (key == "title" or key == "published" or key == "shared" or key == "owner"
+				or key == "id") %}
+			{% else %}
+			{% if value %}
+			<p>{{ key }}: {{ value }}</p>
+			{% endif %}
+			{% endif %}
+			{% endfor %}
+		</p>
+	</div>
 	{% endfor %}
 {% endif %}
 {% endblock %}

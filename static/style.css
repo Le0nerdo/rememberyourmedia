@@ -4,6 +4,8 @@ body {
 	width: 50%;
 	margin: auto;
 	margin-top: 3%;
+	overflow-wrap: break-word;
+	word-wrap: break-word;
 }
 
 nav ul {
@@ -35,7 +37,12 @@ nav li a:hover {
 	padding: 20px;
 	background-color: #f44336;
 	color: white;
-	margin-bottom: 15px;
+}
+
+#message {
+	padding: 20px;
+	background-color: green;
+	color: white;
 }
 
 .closebtn {
@@ -64,6 +71,10 @@ nav li a:hover {
 
 .sharedicon {
 	color: green;
+	float: right;
+}
+
+.editicon {
 	float: right;
 }
 

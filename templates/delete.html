@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Do you want to delete the {{ type }} with the Title {{ title }}</h2>
+<p>
+	<a href="/browse/{{ type }}">
+		<input type="button" value="No" />
+	 </a>
+</p>
+<p>
+	<form action="/delete/{{ type }}/{{ id }}" method="POST">
+		<input type="hidden" name="csrf_token" value={{ session.csrf_token }}>
+		<p><input type="submit" value="Delete"></p>
+	</form>
+</p>
+{% endblock %}

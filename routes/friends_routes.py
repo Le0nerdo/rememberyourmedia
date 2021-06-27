@@ -19,12 +19,14 @@ def add_friend():
 		return redirect("/")
 	if not users.valid():
 		return render_template("error.html")
+	requests = friends.friend_requests()
+	current = friends.get()
 	username = request.form["username"]
+	if len(username) < 3 or len(username) > 20:
+		return render_template("friends.html", requests=requests, friends=current)
 	status = friends.send_friend_request(username)
 	if status == 0 or status == 1:
 		return redirect("/friends")
-	requests = friends.friend_requests()
-	current = friends.get()
 	if status == 2:
 		return render_template(
 			"friends.html",

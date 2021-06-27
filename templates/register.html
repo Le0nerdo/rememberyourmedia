@@ -11,6 +11,8 @@
 			value={{ username }}
 			{% endif %}
 			autocomplete="off"
+			minlength="3"
+			maxlength="20"
 		>
 	</p>
 	<p>
@@ -22,15 +24,29 @@
 			value={{ email }}
 			{% endif %}
 			autocomplete="off"
+			minlength="5"
+			maxlength="255"
 		>
 	</p>
 	<p>
 		password:<br>
-		<input type="password" name="password" autocomplete="off">
+		<input
+			type="password"
+			name="password"
+			autocomplete="off"
+			minlength="12"
+			maxlength="255"
+		>
 	</p>
 	<p>
 		retype password:<br>
-		<input type="password" name="password_check" autocomplete="off">
+		<input
+			type="password"
+			name="password_check"
+			autocomplete="off"
+			minlength="12"
+			maxlength="255"
+		>
 	</p>
 	<input type="submit" value="Create user">
 </form>
